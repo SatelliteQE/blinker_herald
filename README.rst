@@ -2,6 +2,9 @@
 Blinker Herald
 ===============================
 
+.. image:: docs/The_Herald.jpg
+        :alt: The Herald
+  
 .. image:: https://img.shields.io/pypi/v/blinker_herald.svg
         :target: https://pypi.python.org/pypi/blinker_herald
 
@@ -15,9 +18,6 @@ Blinker Herald
 .. image:: https://coveralls.io/repos/github/SatelliteQE/blinker_herald/badge.svg?branch=master 
         :target: https://coveralls.io/github/SatelliteQE/blinker_herald?branch=master 
         :alt: Coverage
-
-.. image:: docs/The_Herald.jpg
-        :scale: 50 %
 
 The Blinker Herald includes helpers to easily emit signals using the excelent
 `blinker`_ library.
