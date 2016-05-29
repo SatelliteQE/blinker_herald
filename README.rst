@@ -12,8 +12,12 @@ Blinker Herald
         :target: https://readthedocs.org/projects/blinker_herald/?badge=latest
         :alt: Documentation Status
 
+.. image:: https://coveralls.io/repos/github/SatelliteQE/blinker_herald/badge.svg?branch=master 
+        :target: https://coveralls.io/github/SatelliteQE/blinker_herald?branch=master 
+        :alt: Coverage
+
 .. image:: docs/The_Herald.jpg
-   :height: 200px
+        :scale: 50 %
 
 The Blinker Herald includes helpers to easily emit signals using the excelent
 `blinker`_ library.
@@ -29,7 +33,7 @@ Features
 --------
 
 * All the features provided by `blinker`_
-* + An easy decorator :code:`@emit()` to magically emit signals when your functions are called and before it returns a result.
+* `+` an easy decorator :code:`@emit()` to magically emit signals when your functions are called and before it returns a result.
 * Customizable for your needs
 
 Let's say you have a class that does something::
