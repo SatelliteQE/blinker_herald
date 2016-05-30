@@ -4,7 +4,7 @@ Blinker Herald
 
 .. image:: docs/The_Herald.jpg
         :alt: The Herald
-  
+
 .. image:: https://img.shields.io/pypi/v/blinker_herald.svg
         :target: https://pypi.python.org/pypi/blinker_herald
 
@@ -69,6 +69,11 @@ And you can also capture the **post** signal to log the results::
     def handle_post(sender, signal_emitter, result, **kwargs):
         logger.info("The method {0} returned {1}".format(sender, result))
 
+
+.. note::
+
+  Post-signals are only called if there were no exceptions
+  raised during the processing of their related function.
 
 You can also use the namespace proxy :code:`blinker_herald.signals` to connect
 handlers to signals, the signal name is the prefix **pre** or **post**
