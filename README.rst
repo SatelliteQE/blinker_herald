@@ -8,11 +8,11 @@ Blinker Herald
 .. image:: https://img.shields.io/pypi/v/blinker_herald.svg
         :target: https://pypi.python.org/pypi/blinker_herald
 
-.. image:: https://img.shields.io/travis/rochacbruno/blinker_herald.svg
-        :target: https://travis-ci.org/SatelliteQE/blinker_herald
+.. image:: https://travis-ci.org/SatelliteQE/blinker_herald.svg?branch=master
+    :target: https://travis-ci.org/SatelliteQE/blinker_herald
 
-.. image:: https://readthedocs.org/projects/blinker_herald/badge/?version=latest
-        :target: https://readthedocs.org/projects/blinker_herald/?badge=latest
+.. image:: https://readthedocs.org/projects/blinker-herald/badge/?version=latest
+        :target: https://readthedocs.org/projects/blinker-herald/?badge=latest
         :alt: Documentation Status
 
 .. image:: https://coveralls.io/repos/github/SatelliteQE/blinker_herald/badge.svg?branch=master
