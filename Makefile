@@ -91,3 +91,14 @@ dist-clean: clean
 
 install: clean
 	python setup.py install
+
+patch:
+	bumpversion patch --config-file=setup.cfg
+
+minor:
+	bumpversion minor --config-file=setup.cfg
+
+major:
+	bumpversion major --config-file=setup.cfg
+
+release-patch: patch dist release dist-clean
