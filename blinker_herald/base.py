@@ -4,10 +4,10 @@
 import inspect
 from functools import wraps
 
-__all__ = ['emit', '_signals', 'AbstractSender',
+__all__ = ['emit', 'signals_namespace', 'AbstractSender',
            'SIGNALS_AVAILABLE', 'SENDER_CLASS',
            'SENDER_CLASS_NAME', 'SENDER_MODULE',
-           'SENDER_NAME', 'Namespace']
+           'SENDER_NAME', 'Namespace', 'signals']
 
 
 SENDER_NAME = lambda s: s.__name__  # noqa
@@ -51,7 +51,7 @@ except ImportError:  # pragma: no cover
         receivers_for = temporarily_connected_to = _fail
         del _fail
 
-_signals = Namespace()
+signals_namespace = Namespace()
 
 
 def emit(only=None, return_vars=None, namespace=None,
@@ -95,7 +95,7 @@ def emit(only=None, return_vars=None, namespace=None,
     :param post_result_name: the name of the result variable e.g: result
     :param capture_result: Should result be sent to post signals handlers?
     """
-    namespace = namespace or _signals
+    namespace = namespace or signals_namespace
     if not getattr(return_vars, 'get', None):
         return_vars = {'pre': return_vars,
                        'post': return_vars}
@@ -124,8 +124,8 @@ def emit(only=None, return_vars=None, namespace=None,
                 'self', sendkw.pop('cls', kw.get('self', kw.get('cls', fn))))
             _sender = sender or sendkw['signal_emitter']
             if isinstance(
-                _sender, type(lambda: 0)
-            ) and _sender.__name__ == (lambda: 0).__name__:
+                _sender, type(SENDER_NAME)
+            ) and _sender.__name__ == (SENDER_NAME).__name__:
                 _sender = _sender(sendkw['signal_emitter'])
             if capture_result and action == 'post':
                 sendkw[post_result_name] = result
@@ -146,3 +146,24 @@ class AbstractSender(object):
     """Just a namespace to be used as
     a sender for functions and static methods"""
     pass
+
+
+class SignalProxy(object):
+    """This class allows the lazy access to signals
+    as attributes::
+
+       from blinker_herald import signals
+
+       signals.post_my_function.connect
+       def handler(sender, signal_emitter, **kwargs):
+           #do something
+    """
+
+    def __init__(self, namespace):
+        self.namespace = namespace
+
+    def __getattr__(self, item):
+        return self.namespace.signal(item)
+
+
+signals = SignalProxy(signals_namespace)

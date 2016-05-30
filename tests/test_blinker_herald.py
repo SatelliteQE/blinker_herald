@@ -10,16 +10,12 @@ Tests for `blinker_herald` module.
 
 import pytest
 from blinker_herald import (
-    emit, AbstractSender, Namespace,
+    emit, signals, AbstractSender, Namespace,
     SENDER_CLASS, SENDER_CLASS_NAME, SENDER_MODULE
 )
 
 
-class TestBlinker_herald(object):
-
-    @classmethod
-    def setup_class(cls):
-        pass
+class TestBlinkerHerald(object):
 
     def test_emit_decorator_in_function(self):
         """Should assert that emit decorator is working"""
@@ -83,8 +79,8 @@ class TestBlinker_herald(object):
         abstract_sender = AbstractSender()
 
         @emit(sender=abstract_sender,
-                      return_vars={'pre': ['arg1', 'arg2'],
-                                   'post': ['arg2', 'arg3']})
+              return_vars={'pre': ['arg1', 'arg2'],
+                           'post': ['arg2', 'arg3']})
         def simple_function3(arg1, arg2, arg3=None):
             return '{} it worked {}'.format(arg1, arg2)
 
@@ -264,7 +260,7 @@ class TestBlinker_herald(object):
     def test_connected_using_sender_class_name(self, *args, **kwargs):
         class BClass(object):
             @emit(post_result_name='foo',
-                          sender=SENDER_CLASS_NAME)
+                  sender=SENDER_CLASS_NAME)
             def b_simple_method(self):
                 return 'bar'
 
@@ -278,7 +274,7 @@ class TestBlinker_herald(object):
     def test_connected_to_using_class(self, *args, **kwargs):
         class CClass(object):
             @emit(post_result_name='foo',
-                          sender=SENDER_CLASS)
+                  sender=SENDER_CLASS)
             def c_simple_method(self):
                 return 'bar'
 
@@ -295,7 +291,7 @@ class TestBlinker_herald(object):
     def test_connected_to_using_module(self, *args, **kwargs):
         class DClass(object):
             @emit(post_result_name='foo',
-                          sender=SENDER_MODULE)
+                  sender=SENDER_MODULE)
             def d_simple_method(self):
                 return 'bar'
 
@@ -312,7 +308,7 @@ class TestBlinker_herald(object):
     def test_connected_via_to_specific_handler(self, *args, **kwargs):
         class Base(object):
             @emit(post_result_name='foo',
-                          sender=SENDER_CLASS)
+                  sender=SENDER_CLASS)
             def base_simple_method(self):
                 return 'bar'
 
@@ -343,8 +339,20 @@ class TestBlinker_herald(object):
         t = Two()
         t.base_simple_method()
 
-    @classmethod
-    def teardown_class(cls):
-        pass
+    def test_emit_using_lambda_sender(self):
 
+        class Test(object):
+            @emit(sender=lambda s: "sender_{0}".format(s.__class__.__name__))
+            def test_method(self, arg1):
+                return arg1
 
+        @signals.post_test_method.connect
+        def test_method_handler(sender, signal_emitter, result, **kwargs):
+            assert sender == 'sender_Test'
+            assert result == 'foo'
+            assert isinstance(signal_emitter, Test)
+            signal_emitter.post_emitted = True
+
+        t = Test()
+        t.test_method('foo')
+        assert t.post_emitted is True
