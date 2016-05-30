@@ -22,7 +22,7 @@ test_requirements = [
 
 setup(
     name='blinker_herald',
-    version='0.1.0',
+    version='0.2.0',
     description=(
         "The Blinker Herald includes helpers to easily emit signals using "
         "Blinker. Decorate a function or method with @blinker_herald.emit() "
