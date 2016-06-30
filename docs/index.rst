@@ -9,7 +9,7 @@ Welcome to Blinker Herald's documentation!
 .. image:: The_Herald.jpg
    :height: 200px
 
-The Blinker Herald includes helpers to easily emit signals using the excelent
+The Blinker Herald includes helpers to easily emit signals using the excellent
 `blinker`_ library.
 
 Decorate a function or method with :code:`@blinker_herald.emit()`
